@@ -90,7 +90,7 @@ ros::Publisher chatter("/zumo32u4/sensorval", &str_msg);
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   Wire.begin();
 
@@ -139,7 +139,7 @@ void loop()
   s += ',';
   s += gyro.g.z;    // [13] Gyrometer.z
   
-  Serial.println(s);  // Debug Print
+  //Serial.println(s);  // Debug Print
 
   str_msg.data = s.c_str();
   chatter.publish(&str_msg);
