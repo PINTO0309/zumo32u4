@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="zumo32u4">
+
+    <link name="imu"/>
+    <link name="scan"/>
+    <link name="base_link">
+        <visual>
+            <origin rpy="0 0 3.14" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://zumo32u4/urdf/zumo32u4.STL" scale="1 1 1"/>
+            </geometry>
+            <material name="Grey">
+                <color rgba="0.30 0.30 0.10 1.0"/>
+            </material>
+        </visual>
+    </link>
+    <joint name="jointimu" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+    
+    <joint name="jointscan" type="fixed">
+        <parent link="base_link"/>
+        <child link="scan"/>
+        <origin rpy="0 0 0" xyz="0 0 0.08"/>
+        
+    </joint>
+
+  
+  
+</robot>
