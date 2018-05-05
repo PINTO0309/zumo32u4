@@ -85,7 +85,7 @@ class Zumo:
         try:
             if len(sensorvalue.data) > 0:
                 self.sensorvalue = line.split(',')
-                if len(self.sensorvalue) == 11:
+                if len(self.sensorvalue) == 14:
                     self.pubimu()
                     self.pubodom()
         except:
