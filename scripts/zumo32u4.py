@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import traceback
 import serial
 from math import sqrt, cos, sin
 import rospy
@@ -21,6 +22,8 @@ class Zumo:
         self.COUNT=48
         self.temps=0
         self.theta=0
+        self.odomR=0
+        self.odomL=0 
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -73,16 +76,15 @@ class Zumo:
 
     def pubcommand(self):
         try:
-            if isinstance(self.ser, types.NoneType) == False:
-                self.ser.flush()
-                command = ""
-                command = self.ser.read()
-                if command != "":
-                    pub.publish(command)
+            self.ser.flush()
+            command = ""
+            command = self.ser.read()
+            if command != "":
+                pub.publish(command)
         except:
-            print "pubcommand Error"
-            print sys.exc_info()
-            #pass
+            #print "pubcommand Error"
+            #traceback.print_exc()
+            pass
 
     def subsensorval(self, svalue):
         try:
@@ -93,7 +95,7 @@ class Zumo:
                     self.pubodom()
         except:
             print "subsensorval Error"
-            print sys.exc_info()
+            traceback.print_exc()
             #pass
 
     def pubimu(self):
