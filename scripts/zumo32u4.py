@@ -65,12 +65,12 @@ class Zumo:
         self.pub_comm      = rospy.Publisher('/zumo32u4/command', String, queue_size=10)
         self.pub_imu       = rospy.Publisher('/zumo32u4/imu', Imu, queue_size=10)
         self.pub_odom      = rospy.Publisher('/zumo32u4/odom', Odometry, queue_size=10)
-        self.sub_sensorval = rospy.Subscriber('/zumo32u4/sensorval', String, subsensorval)
+        self.sub_sensorval = rospy.Subscriber('/zumo32u4/sensorval', String, self.subsensorval)
         self.tf_br         = tf.TransformBroadcaster()
 
     def __delete__(self):
         self.ser.close()
-        
+
     def pubcommand(self):
         try:
             self.ser.flush()
@@ -81,10 +81,10 @@ class Zumo:
         except:
             pass
 
-    def subsensorval(self, sensorvalue):
+    def subsensorval(self.svalue):
         try:
-            if len(sensorvalue.data) > 0:
-                self.sensorvalue = line.split(',')
+            if len(svalue.data) > 0:
+                self.sensorvalue = svalue.data.split(',')
                 if len(self.sensorvalue) == 14:
                     self.pubimu()
                     self.pubodom()
