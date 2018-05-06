@@ -73,13 +73,15 @@ class Zumo:
 
     def pubcommand(self):
         try:
-            self.ser.flush()
-            command = ""
-            command = self.ser.read()
-            if command != "":
-                pub.publish(command)
+            if isinstance(self.ser, types.NoneType) == False:
+                self.ser.flush()
+                command = ""
+                command = self.ser.read()
+                if command != "":
+                    pub.publish(command)
         except:
             print "pubcommand Error"
+            print sys.exc_info()
             #pass
 
     def subsensorval(self, svalue):
@@ -91,6 +93,7 @@ class Zumo:
                     self.pubodom()
         except:
             print "subsensorval Error"
+            print sys.exc_info()
             #pass
 
     def pubimu(self):
