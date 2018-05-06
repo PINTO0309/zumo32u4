@@ -81,7 +81,7 @@ class Zumo:
         except:
             pass
 
-    def subsensorval(self.svalue):
+    def subsensorval(self, svalue):
         try:
             if len(svalue.data) > 0:
                 self.sensorvalue = svalue.data.split(',')
