@@ -23,8 +23,8 @@ ros::NodeHandle nh;        // NodeHandler of ROS
 void motorcontrol(const std_msgs::String& cmd_msg)
 {
 
-  // F : forward    ,  B : backward
-  // R : turn right ,  L : turn left
+  // I : forward    ,  , : backward
+  // L : turn right ,  J : turn left
   // S : stop
 
   String cmd = "";
@@ -90,13 +90,13 @@ ros::Publisher chatter("/zumo32u4/sensorval", &str_msg);
 
 void setup()
 {
-  Serial.begin(9600);
+  //Serial.begin(9600);     // Debug Print
 
   Wire.begin();
 
   nh.initNode();           // Init ROS Node
-  nh.advertise(chatter);   // ROS Publisher
-  nh.subscribe(sub);       // ROS Subscriber
+  nh.advertise(chatter);   // Init ROS Publisher
+  nh.subscribe(sub);       // Init ROS Subscriber
 
   compass.init();          // Init magnetometer
   compass.enableDefault();
