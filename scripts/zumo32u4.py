@@ -79,7 +79,8 @@ class Zumo:
             if command != "":
                 pub.publish(command)
         except:
-            pass
+            print "pubcommand Error"
+            #pass
 
     def subsensorval(self, svalue):
         try:
@@ -89,7 +90,8 @@ class Zumo:
                     self.pubimu()
                     self.pubodom()
         except:
-            pass
+            print "subsensorval Error"
+            #pass
 
     def pubimu(self):
         self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/100
