@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <param 
+        name="robot_description" 
+        textfile="$(find zumo32u4)/urdf/zumo32u4.urdf" 
+    />
+    <node
+        name="rviz" 
+        pkg="rviz" 
+        type="rviz" 
+        args="-d $(find zumo32u4)/rviz/zumo32u4.rviz" 
+    /> 
+</launch>
