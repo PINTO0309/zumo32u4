@@ -10,5 +10,21 @@
         pkg="rviz" 
         type="rviz" 
         args="-d $(find zumo32u4)/rviz/zumo32u4.rviz" 
-    /> 
+    />
+    <node 
+        name="joint_state_publisher" 
+        pkg="joint_state_publisher" 
+        type="joint_state_publisher" 
+    />
+    <node 
+        name="robot_state_publisher" 
+        pkg="robot_state_publisher" 
+        type="robot_state_publisher" 
+        respawn="false"         
+        output="screen">
+        <remap 
+            from="/joint_states" 
+            to="/zumo32u4/joint_states" 
+        />
+    </node>
 </launch>
