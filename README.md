@@ -191,5 +191,5 @@ $ roslaunch zumo32u4 zumo32u4rviz.launch
 ## ◆ Zumo32u4 operation key mapping<br>
 
 Connect from Windows 10 PC to Raspberry Pi with TeraTerm.<br>
-And, ou can control by the following key operation.
+And, you can control by the following key operation.
 ![MotorControl](https://github.com/PINTO0309/zumo32u4/blob/master/media/0022_zumo32u4control.png)
