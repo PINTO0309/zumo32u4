@@ -35,6 +35,5 @@
         <parent link="base_link"/>
         <child link="scan"/>
         <origin rpy="0 0 0" xyz="0 0 0.08"/>
-        
     </joint>  
 </robot>
