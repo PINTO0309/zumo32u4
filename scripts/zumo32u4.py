@@ -149,7 +149,6 @@ class Zumo:
                self.o.pose.pose.orientation.y,
                self.o.pose.pose.orientation.z,
                self.o.pose.pose.orientation.w)       
-        #self.tf_br.sendTransform(pos, ori, rospy.Time.now(), 'base_link', 'map')
         self.tf_br.sendTransform(pos, ori, rospy.Time.now(), 'base_link', 'map')
 
 if __name__=="__main__":
