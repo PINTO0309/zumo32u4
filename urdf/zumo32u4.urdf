@@ -15,7 +15,7 @@
             </material>
         </visual>
     </link>
-    <joint name="jointbaselink" type="planar">
+    <joint name="jointbaselink" type="fixed">
         <parent link="map"/>
         <child link="base_link"/>
         <axis xyz="0 0 1"/>
