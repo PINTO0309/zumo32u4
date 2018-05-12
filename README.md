@@ -15,7 +15,7 @@
 5. C++
 6. ROS kinetic
 7. Working PC1 (Ubuntu16.04 + ROS kinetic + ArduinoIDE 1.8.5)
-8. Working PC2 (Windows10)
+8. Working PC2 (Windows10 + TeraTerm)
 
 ## ◆ Procedure for environment building
 
