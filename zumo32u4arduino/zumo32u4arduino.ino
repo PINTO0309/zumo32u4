@@ -85,8 +85,8 @@ void motorcontrol(const std_msgs::String& cmd_msg)
 
 }
 
-ros::Subscriber<std_msgs::String> sub("/command", motorcontrol);
-ros::Publisher chatter("/sensorval", &str_msg);
+ros::Subscriber<std_msgs::String> sub("command", motorcontrol);
+ros::Publisher chatter("sensorval", &str_msg);
 
 void setup()
 {
