@@ -85,8 +85,8 @@ void motorcontrol(const std_msgs::String& cmd_msg)
 
 }
 
-ros::Subscriber<std_msgs::String> sub("/zumo32u4/command", motorcontrol);
-ros::Publisher chatter("/zumo32u4/sensorval", &str_msg);
+ros::Subscriber<std_msgs::String> sub("command", motorcontrol);
+ros::Publisher chatter("sensorval", &str_msg);
 
 void setup()
 {
