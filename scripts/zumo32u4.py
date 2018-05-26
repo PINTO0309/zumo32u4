@@ -88,6 +88,7 @@ class Zumo:
             self.ser.flush()
             command = ""
             command = self.ser.read()
+            rospy.loginfo("Command received "+command)
             if command != "":
                 pub.publish(command)
         except:
