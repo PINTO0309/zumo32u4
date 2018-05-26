@@ -94,7 +94,7 @@ class Zumo:
             command = self.ser.read()
             if command != "":
                 rospy.loginfo("Command received ["+command+"]")
-                pub.publish(command)
+                self.pub_comm.publish(command)
         except:
             #print "pubcommand Error"
             #traceback.print_exc()
