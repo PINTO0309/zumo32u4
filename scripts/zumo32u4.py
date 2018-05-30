@@ -8,7 +8,6 @@ from math import sqrt, cos, sin
 import rospy
 import tf
 from time import sleep
-from threading import Lock
 from geometry_msgs.msg import Twist, Pose
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
@@ -38,7 +37,6 @@ class Zumo:
             self.BAUDRATE = rospy.get_param('BLUETOOTH_BAUDRATE')
 
         self.TIMEOUT = 0.01
-        self.lock = Lock()
         self.sensorvalue = list()
         self.speed = []
         self.angle = []
@@ -65,14 +63,6 @@ class Zumo:
         except:
             rospy.logwarn("Serial connection failure")
 
-#        self.pub_comm      = rospy.Publisher('/zumo32u4/command', String, queue_size=10)
-#        rospy.loginfo("Publisher initialization success /zumo32u4/command")
-#        self.pub_imu       = rospy.Publisher('/zumo32u4/imu', Imu, queue_size=10)
-#        rospy.loginfo("Publisher initialization success /zumo32u4/imu")
-#        self.pub_odom      = rospy.Publisher('/zumo32u4/odom', Odometry, queue_size=10)
-#        rospy.loginfo("Publisher initialization success /zumo32u4/odom")
-#        self.sub_sensorval = rospy.Subscriber('/zumo32u4/sensorval', String, self.subsensorval)
-#        rospy.loginfo("Subscriber initialization success /zumo32u4/sensorval")
         self.pub_comm      = rospy.Publisher('command', String, queue_size=10)
         rospy.loginfo("Publisher initialization success /command")
         self.pub_imu       = rospy.Publisher('imu', Imu, queue_size=10)
