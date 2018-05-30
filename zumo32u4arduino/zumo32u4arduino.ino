@@ -40,39 +40,40 @@ void motorcontrol(const std_msgs::String& cmd_msg)
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    motors.setSpeeds(basespeed, basespeed);
-    vleft = basespeed;vright = basespeed;
+    vleft = basespeed;
+    vright = basespeed;
+    motors.setSpeeds(vleft, vright);
   }
   else if (cmd == ",")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    motors.setSpeeds(-1 * basespeed, -1 * basespeed);
     vleft = -1 * basespeed;
     vright = -1 * basespeed;
+    motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "l")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    motors.setLeftSpeed(basespeed + 50);
-    vleft = basespeed + 50;
-    vright = 0;
+    vleft = basespeed;
+    vright = -1*basespeed;
+    motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "j")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    motors.setRightSpeed(basespeed + 50);
-    vleft = 0;
-    vright = basespeed + 50;
+    vleft = -1*basespeed;
+    vright = basespeed;
+    motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "s")
   {
-    motors.setSpeeds(0, 0);
-    delay(2);
     vleft = 0;
     vright = 0;
+    motors.setSpeeds(vleft, vright);
+    delay(2);
   }
 
   int16_t newLeft = encoders.getCountsLeft();
