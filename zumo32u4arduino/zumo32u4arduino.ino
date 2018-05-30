@@ -48,8 +48,8 @@ void motorcontrol(const std_msgs::String& cmd_msg)
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = -1 * basespeed;
-    vright = -1 * basespeed;
+    vleft = -1*basespeed;
+    vright = -1*basespeed;
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "l")
