@@ -56,16 +56,16 @@ void motorcontrol(const std_msgs::String& cmd_msg)
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = basespeed;
-    vright = -1*basespeed;
+    vleft = (basespeed+50);
+    vright = -1*(basespeed+50);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "j")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = -1*basespeed;
-    vright = basespeed;
+    vleft = -1*(basespeed+50);
+    vright = (basespeed+50);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "s")
