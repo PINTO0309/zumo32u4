@@ -22,7 +22,8 @@ class Zumo:
         self.temps=0
         self.theta=0
         self.odomR=0
-        self.odomL=0 
+        self.odomL=0
+        self.deltat=0
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -93,6 +94,7 @@ class Zumo:
     def subsensorval(self, svalue):
         try:
             if len(svalue.data) > 0:
+                #rospy.loginfo(svalue.data)
                 self.sensorvalue = svalue.data.split(',')
                 if len(self.sensorvalue) == 14:
                     self.pubimu()
@@ -103,9 +105,9 @@ class Zumo:
             #pass
 
     def pubimu(self):
-        self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/100
-        self.p.linear_acceleration.y=4*9.81*(float(self.sensorvalue[2])/2**16)/100
-        self.p.linear_acceleration.z=4*9.81*(float(self.sensorvalue[3])/2**16)/100
+        self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/1000
+        self.p.linear_acceleration.y=4*9.81*(float(self.sensorvalue[2])/2**16)/1000
+        self.p.linear_acceleration.z=4*9.81*(float(self.sensorvalue[3])/2**16)/1000
         self.p.orientation.x= float(self.sensorvalue[4])
         self.p.orientation.y=float(self.sensorvalue[5])
         self.p.orientation.z=float(self.sensorvalue[6])
@@ -113,7 +115,8 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
-        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
+        if float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL:
+            #rospy.loginfo("Odom Published!! sensor:"+str(float(self.sensorvalue[9]))+" "+str(float(self.sensorvalue[10]))+" odomRL:"+str(self.odomL)+" "+str(self.odomR))
             deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                        #Second
             VR=(float(self.sensorvalue[10])-self.odomR)/self.COUNT *3.14*self.DIAMETER/deltat #Meter
             VL=(float(self.sensorvalue[9])-self.odomL)/self.COUNT *3.14*self.DIAMETER/deltat  #Meter
@@ -121,9 +124,11 @@ class Zumo:
             self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
         else :
+            deltat=0
             VR=0
             VL=0        
-            
+            #rospy.logwarn("Odom ???")
+
         self.o.pose.pose.position.x += deltat*(VR+VL)/2*cos(self.theta)
         self.o.pose.pose.position.y += deltat*(VR+VL)/2*sin(self.theta)
         self.theta += deltat*(VL-VR)/self.INTERAXIS    
