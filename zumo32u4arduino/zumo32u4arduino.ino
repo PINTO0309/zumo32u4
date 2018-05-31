@@ -8,7 +8,7 @@
 long timer=0;              // Elapsed time since program started (milli second)
 int vright = 0;            // Left Morter velocity (speed of motor)
 int vleft = 0;             // Right Morter velocity (speed of motor)
-int basespeed = 100;        // Base speed of Morter (Effective Range: 1 - 350)
+int basespeed = 150;        // Base speed of Morter (Effective Range: 1 - 350)
 long positionLeft  = 0;    // For encoder verification
 long positionRight = 0;    // For encoder verification
 long newLeft, newRight;    // Value of Encorder
@@ -56,16 +56,16 @@ void motorcontrol(const std_msgs::String& cmd_msg)
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = basespeed;
-    vright = -1*basespeed;
+    vleft = (basespeed+100);
+    vright = -1*(basespeed+100);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "j")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = -1*basespeed;
-    vright = basespeed;
+    vleft = -1*(basespeed+100);
+    vright = (basespeed+100);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "s")
