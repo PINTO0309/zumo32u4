@@ -8,10 +8,11 @@
 long timer=0;              // Elapsed time since program started (milli second)
 int vright = 0;            // Left Morter velocity (speed of motor)
 int vleft = 0;             // Right Morter velocity (speed of motor)
-int basespeed = 150;        // Base speed of Morter (Effective Range: 1 - 350)
-long positionLeft  = 0;    // For encoder verification
-long positionRight = 0;    // For encoder verification
-long newLeft, newRight;    // Value of Encorder
+int basespeed = 150;        // Base speed of Morter (Effective Range: 1 - 200)
+int16_t positionLeft  = 0;    // For encoder verification
+int16_t positionRight = 0;    // For encoder verification
+int16_t newLeft = 0;    // Value of Encorder
+int16_t newRight = 0;    // Value of Encorder
 std_msgs::String str_msg;  // Sensor value to be published
 
 LSM303 compass;            // Magnetometer
@@ -56,16 +57,16 @@ void motorcontrol(const std_msgs::String& cmd_msg)
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = (basespeed+100);
-    vright = -1*(basespeed+100);
+    vleft = (basespeed+200);
+    vright = -1*(basespeed+200);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "j")
   {
     motors.setSpeeds(0, 0);
     delay(2);
-    vleft = -1*(basespeed+100);
-    vright = (basespeed+100);
+    vleft = -1*(basespeed+200);
+    vright = (basespeed+200);
     motors.setSpeeds(vleft, vright);
   }
   else if (cmd == "s")
@@ -74,16 +75,6 @@ void motorcontrol(const std_msgs::String& cmd_msg)
     vright = 0;
     motors.setSpeeds(vleft, vright);
     delay(2);
-  }
-
-  int16_t newLeft = encoders.getCountsLeft();
-  int16_t newRight = encoders.getCountsRight();
-
-  if (!(encoders.checkErrorLeft()) && !(encoders.checkErrorRight())) {
-    if (newLeft != positionLeft || newRight != positionRight) {
-      positionLeft = newLeft;
-      positionRight = newRight;
-    }
   }
 
 }
@@ -113,6 +104,12 @@ void loop()
   compass.read();   // Read magnetometer
   gyro.read();      // Read gyrometer
   timer = millis();
+  newLeft = encoders.getCountsLeft();
+  newRight = encoders.getCountsRight();
+  if (!(encoders.checkErrorLeft()) && !(encoders.checkErrorRight())) {
+    positionLeft = newLeft;
+    positionRight = newRight;    
+  }
   String s = "";
   s += timer;       // [0]  Elapsed time since program started (milli second)
   s += ',';
@@ -132,9 +129,9 @@ void loop()
   s += ',';
   s += vright;      // [8]  Right Morter velocity (speed of motor)
   s += ',';
-  s += newLeft;     // [9]  Left Morter odometry (Rotation angle of motor)
+  s += positionLeft;     // [9]  Left Morter odometry (Rotation angle of motor)
   s += ',';
-  s += newRight;    // [10] Right Morter odometry (Rotation angle of motor)
+  s += positionRight;    // [10] Right Morter odometry (Rotation angle of motor)
   s += ',';
   s += gyro.g.x;    // [11] Gyrometer.x
   s += ',';
