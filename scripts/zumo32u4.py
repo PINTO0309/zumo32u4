@@ -105,9 +105,9 @@ class Zumo:
             #pass
 
     def pubimu(self):
-        self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/1000
-        self.p.linear_acceleration.y=4*9.81*(float(self.sensorvalue[2])/2**16)/1000
-        self.p.linear_acceleration.z=4*9.81*(float(self.sensorvalue[3])/2**16)/1000
+        self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/100
+        self.p.linear_acceleration.y=4*9.81*(float(self.sensorvalue[2])/2**16)/100
+        self.p.linear_acceleration.z=4*9.81*(float(self.sensorvalue[3])/2**16)/100
         self.p.orientation.x= float(self.sensorvalue[4])
         self.p.orientation.y=float(self.sensorvalue[5])
         self.p.orientation.z=float(self.sensorvalue[6])
@@ -120,8 +120,8 @@ class Zumo:
             deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                        #Second
             VR=(float(self.sensorvalue[10])-self.odomR)/self.COUNT *3.14*self.DIAMETER/deltat #Meter
             VL=(float(self.sensorvalue[9])-self.odomL)/self.COUNT *3.14*self.DIAMETER/deltat  #Meter
-            self.odomL=float(self.sensorvalue[9]) 
-            self.odomR=float(self.sensorvalue[10])
+            self.odomL=float(self.sensorvalue[9])/100
+            self.odomR=float(self.sensorvalue[10])/100
             self.temps=self.sensorvalue[0]
         else :
             deltat=0
