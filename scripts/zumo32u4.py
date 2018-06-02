@@ -49,7 +49,7 @@ class Zumo:
         self.o.pose.pose.position.z = 0.0
         self.o.pose.pose.orientation.z = 0.0        
         self.o.header.stamp = rospy.Time.now()
-        self.o.header.frame_id = "map"
+        self.o.header.frame_id = "odom"
         self.o.child_frame_id = "base_link"
 
         # Init IMU
@@ -120,8 +120,8 @@ class Zumo:
             deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                        #Second
             VR=(float(self.sensorvalue[10])-self.odomR)/self.COUNT *3.14*self.DIAMETER/deltat #Meter
             VL=(float(self.sensorvalue[9])-self.odomL)/self.COUNT *3.14*self.DIAMETER/deltat  #Meter
-            self.odomL=float(self.sensorvalue[9])/100
-            self.odomR=float(self.sensorvalue[10])/100
+            self.odomL=float(self.sensorvalue[9])
+            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
         else :
             deltat=0
@@ -153,7 +153,7 @@ class Zumo:
                self.o.pose.pose.orientation.y,
                self.o.pose.pose.orientation.z,
                self.o.pose.pose.orientation.w)       
-        self.tf_br.sendTransform(pos, ori, rospy.Time.now(), 'map', 'base_link')
+        self.tf_br.sendTransform(pos, ori, rospy.Time.now(), 'base_link', 'odom')
 
 if __name__=="__main__":
 
