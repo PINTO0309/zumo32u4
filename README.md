@@ -1,5 +1,5 @@
 # zumo32u4
-**SLAM(GMapping) by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br>
+**SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br>
 【Japanese article】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
 ![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br>
 ## ◆ Change log<br>
