@@ -16,14 +16,14 @@ from std_msgs.msg import String
 
 class Zumo:
     def __init__(self):
-        self.DIAMETER=0.038  #Meter
+        self.DIAMETER=0.039  #Meter
         self.INTERAXIS=0.084 #Meter
-        self.COUNT=48
-        self.temps=0
-        self.theta=0
-        self.odomR=0
-        self.odomL=0
-        self.deltat=0
+        self.COUNT=12
+        self.temps=0.0
+        self.theta=0.0
+        self.odomR=0.0
+        self.odomL=0.0
+        self.deltat=0.0
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -116,23 +116,19 @@ class Zumo:
     
     def pubodom(self):
         if float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL:
-            #rospy.loginfo("Odom Published!! sensor:"+str(float(self.sensorvalue[9]))+" "+str(float(self.sensorvalue[10]))+" odomRL:"+str(self.odomL)+" "+str(self.odomR))
-            deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                        #Second
-            VR=(float(self.sensorvalue[10])-self.odomR)/self.COUNT *3.14*self.DIAMETER/deltat #Meter
-            VL=(float(self.sensorvalue[9])-self.odomL)/self.COUNT *3.14*self.DIAMETER/deltat  #Meter
+            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #Second
+            VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #Meter
+            VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #Meter
             self.odomL=float(self.sensorvalue[9])
             self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
         else :
-            deltat=0
-            VR=0
-            VL=0        
-            #rospy.logwarn("Odom ???")
-
-        self.o.pose.pose.position.x += deltat*(VR+VL)/2*cos(self.theta)
-        self.o.pose.pose.position.y += deltat*(VR+VL)/2*sin(self.theta)
-        self.theta += deltat*(VL-VR)/self.INTERAXIS    
-        
+            VR=0.0
+            VL=0.0
+  
+        self.o.pose.pose.position.x = self.deltat*(VR+VL)/2*cos(self.theta)
+        self.o.pose.pose.position.y = self.deltat*(VR+VL)/2*sin(self.theta)
+        self.theta = self.deltat*(VL-VR)/self.INTERAXIS          
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
         self.o.pose.pose.orientation.x = quat[0]
