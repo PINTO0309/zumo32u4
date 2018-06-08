@@ -16,8 +16,8 @@ from std_msgs.msg import String
 
 class Zumo:
     def __init__(self):
-        self.DIAMETER=0.039  #Meter
-        self.INTERAXIS=0.084 #Meter
+        self.DIAMETER=0.039  #[Meter] Diameter of tire
+        self.INTERAXIS=0.084 #[Meter]
         self.COUNT=12
         self.temps=0.0
         self.theta=0.0
@@ -116,12 +116,13 @@ class Zumo:
     
     def pubodom(self):
         if float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL:
-            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #Second
-            VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #Meter
-            VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #Meter
+            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] elapsed time
+            VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter]
+            VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter]
             self.odomL=float(self.sensorvalue[9])
             self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
+            rospy.loginfo("[odomL] "+self.odomL+" [odomR] "+self.odomR+" [deltat] "+self.deltat+" [VL] "+VL+" [VR] "+VR)
         else :
             VR=0.0
             VL=0.0
