@@ -55,7 +55,7 @@ class Zumo:
         # Init IMU
         self.p = Imu()
         self.p.header.stamp = rospy.Time.now()
-        self.p.header.frame_id = "imu"
+        self.p.header.frame_id = "imu_link"
 
         try:
             self.ser = serial.Serial(self.PORT, self.BAUDRATE, timeout = self.TIMEOUT)
