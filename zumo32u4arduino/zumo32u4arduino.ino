@@ -88,6 +88,9 @@ void setup()
 
   Wire.begin();
 
+  encoders.getCountsAndResetLeft();
+  encoders.getCountsAndResetRight();
+
   nh.initNode();           // Init ROS Node
   nh.advertise(chatter);   // Init ROS Publisher
   nh.subscribe(sub);       // Init ROS Subscriber
