@@ -107,8 +107,10 @@ void loop()
   compass.read();   // Read magnetometer
   gyro.read();      // Read gyrometer
   timer = millis();
-  newLeft = encoders.getCountsLeft();
-  newRight = encoders.getCountsRight();
+  //newLeft = encoders.getCountsLeft();
+  //newRight = encoders.getCountsRight();
+  newLeft = encoders.getCountsAndResetLeft();
+  newRight = encoders.getCountsAndResetRight();
   if (!(encoders.checkErrorLeft()) && !(encoders.checkErrorRight())) {
     positionLeft = newLeft;
     positionRight = newRight;    
