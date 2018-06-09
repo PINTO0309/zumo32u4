@@ -127,9 +127,9 @@ class Zumo:
             VR=0.0
             VL=0.0
   
-        self.o.pose.pose.position.x = self.deltat*(VR+VL)/2*cos(self.theta)
-        self.o.pose.pose.position.y = self.deltat*(VR+VL)/2*sin(self.theta)
-        self.theta = self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
+        self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
+        self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
+        self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
         self.o.pose.pose.orientation.x = quat[0]
