@@ -129,7 +129,7 @@ class Zumo:
   
         self.o.pose.pose.position.x = self.deltat*(VR+VL)/2*cos(self.theta)
         self.o.pose.pose.position.y = self.deltat*(VR+VL)/2*sin(self.theta)
-        self.theta = self.deltat*(VL-VR)/self.INTERAXIS
+        self.theta = self.deltat*(VL-VR)/self.INTERAXIS/2
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
         self.o.pose.pose.orientation.x = quat[0]
@@ -138,7 +138,7 @@ class Zumo:
         self.o.pose.pose.orientation.w = quat[3]
         self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
         self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
-        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS
+        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
         
