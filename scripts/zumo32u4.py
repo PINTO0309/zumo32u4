@@ -17,7 +17,7 @@ from std_msgs.msg import String
 class Zumo:
     def __init__(self):
         self.DIAMETER=0.039  #[Meter] Diameter of tire
-        self.INTERAXIS=0.084 #[Meter]
+        self.INTERAXIS=0.084 #[Meter] Distance between left and right tires
         self.COUNT=12
         self.temps=0.0
         self.theta=0.0
