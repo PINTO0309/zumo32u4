@@ -260,7 +260,7 @@ $ nano ~/catkin_ws/install_isolated/share/cartographer_ros/urdf/zumo32u4.urdf
 ```
 5. Execute below.
 ```
-$ nano ~/catkin_wsgc/src/cartographer_ros/cartographer_ros/launch/backpack_2d.launch
+$ nano ~/catkin_ws/src/cartographer_ros/cartographer_ros/launch/backpack_2d.launch
 ```
 ```
 <?xml version="1.0" ?>
@@ -280,7 +280,7 @@ $ nano ~/catkin_wsgc/src/cartographer_ros/cartographer_ros/launch/backpack_2d.la
 ```
 6. Execute below.
 ```
-$ nano ~/catkin_wsgc/src/cartographer_ros/cartographer_ros/configuration_files
+$ nano ~/catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files/demo_2d.rviz
 ```
 ```
 Panels:
