@@ -1,13 +1,19 @@
 # zumo32u4
-**SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br>
+**SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br><br>
 【Japanese article **Gmapping**】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
 【Japanese article **Google CartoGrapher-01**】 https://qiita.com/PINTO/items/4845c438cac05eda4d1e<br>
 【Japanese article **Google CartoGrapher-02**】 https://qiita.com/PINTO/items/fb0d44b2bb9455800667<br>
 【Japanese article **Google CartoGrapher-03**】 https://qiita.com/PINTO/items/d8fd7a91ee00df7702b7<br>
 【Japanese article **Google CartoGrapher-04**】 https://qiita.com/PINTO/items/f8fa5d6ce55317ea590b<br><br>
 **＜Gmapping＞**<br>
-![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br>
+![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br><br>
 **＜Google CartoGrapher＞**<br>
+No odometry and no IMU<br>
+With 2D LiDAR<br>
+![CartoGrapherMapMov](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Movie.gif)<br>
+![CartoGrapherMap](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Map.png)<br>
+With odometry and IMU and LiDAR<br>
+![CartoGrapherMapwodomimu](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherWithOdom%2BIMU.gif)<br>
 
 ## ◆ Change log<br>
 2018.05.05 Ver 0.1.0 Under development<br>
