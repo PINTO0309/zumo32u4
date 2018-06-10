@@ -48,7 +48,7 @@ OR
 $ export ROS_MASTER_URI=http://<RaspberryPi IPaddress>:11311/
 ```
 
-### **Perform work with RaspberryPi3**<br>
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
 
 2. Introduction of navigation package. Execute below.
 ```
@@ -158,7 +158,7 @@ $ git clone https://github.com/PINTO0309/zumo32u4.git
 12. After connecting Ubuntu and Arduino via a microUSB cable, open zumo32u4/zumo32u4arduino.ino in ArduinoIDE in the set of programs cloned above.
 13. Write a sketch to Arduino with "→" button of ArduinoIDE.
 
-### **Perform work with RaspberryPi3**<br>
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
 
 14. Execute below.
 ```
@@ -170,7 +170,7 @@ $ catkin_make
 
 ## ◆ Execution and visualization of map generation by RaspberryPi + Arduino + RPLidar A1M8<br>
 
-### **Perform work with RaspberryPi3**<br>
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
 
 **Terminal-1**
 ```
@@ -613,7 +613,6 @@ $ nano backpack_2d.launch
       name="robot_description"
       textfile="$(find zumo32u4)/urdf/zumo32u4.urdf"
   />
-
   <node
      name="horizontal_laser"
      pkg="rplidar_ros"
@@ -625,21 +624,18 @@ $ nano backpack_2d.launch
      <param name="inverted"         type="bool"   value="false"/>
      <param name="angle_compensate" type="bool"   value="true"/>
   </node>
-
   <node
       pkg="tf"
       type="static_transform_publisher"
       name="base_link_connect"
       args="0 0 0 0 0 0 /base_link /horizontal_laser_link 100"
   />
-
   <node
       pkg="tf"
       type="static_transform_publisher"
       name="imu_link_connect"
       args="0 0 0 0 0 0 /base_link /imu_link 100"
   />
-
   <node
       name="cartographer_node"
       pkg="cartographer_ros"
@@ -647,7 +643,6 @@ $ nano backpack_2d.launch
       args="-configuration_directory $(find cartographer_ros)/configuration_files -configuration_basename backpack_2d.lua"
       output="screen">
   </node>
-
   <node
       name="cartographer_occupancy_grid_node"
       pkg="cartographer_ros"
@@ -724,4 +719,46 @@ return options
 $ cd ~/catkin_ws
 $ catkin_make_isolated --install --use-ninja
 $ source install_isolated/setup.bash
+```
+
+## ◆ Execution and visualization of map generation by RaspberryPi + Arduino + RPLidar A1M8<br>
+
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
+
+**Terminal-1**
+```
+$ roscore
+```
+**Terminal-2**
+```
+$ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200
+```
+**Terminal-3**
+```
+$ sudo rfcomm listen /dev/rfcomm0 1
+```
+
+<br>
+Windows 10 Launch TeraTerm on PC side and connect to RFCOMM to RaspberryPi.
+<br>
+
+**Terminal-4**
+```
+$ rosrun zumo32u4 zumo32u4.py
+```
+**Terminal-5**
+```
+$ cd ~/catkin_ws
+$ source install_isolated/setup.bash
+$ roslaunch cartographer_ros backpack_2d.launch
+```
+### **Perform work with Ubuntu16.04**<br>
+
+**Terminal-1**
+```
+$ cd ~/catkin_ws
+$ catkin_make_isolated --install --use-ninja
+$ source install_isolated/setup.bash
+$ export ROS_MASTER_URI=http://raspberrypi.local:11311/
+$ roslaunch cartographer_ros backpack_2d.launch
 ```
