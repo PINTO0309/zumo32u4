@@ -1,10 +1,18 @@
 # zumo32u4
 **SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br>
-【Japanese article】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
+【Japanese article **Gmapping**】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
+【Japanese article **Google CartoGrapher-01**】 https://qiita.com/PINTO/items/4845c438cac05eda4d1e<br>
+【Japanese article **Google CartoGrapher-02**】 https://qiita.com/PINTO/items/fb0d44b2bb9455800667<br>
+【Japanese article **Google CartoGrapher-03**】 https://qiita.com/PINTO/items/d8fd7a91ee00df7702b7<br>
+【Japanese article **Google CartoGrapher-04**】 https://qiita.com/PINTO/items/f8fa5d6ce55317ea590b<br><br>
+**＜Gmapping＞**<br>
 ![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br>
+**＜Google CartoGrapher＞**<br>
+
 ## ◆ Change log<br>
 2018.05.05 Ver 0.1.0 Under development<br>
-2018.05.12 Ver 1.0.0 First Release
+2018.05.12 Ver 1.0.0 First Release<br>
+2018.06.10 Ver 1.0.1 Bug fix<br>
 
 ## ◆ Environment<br>
 ![Environment](https://github.com/PINTO0309/zumo32u4/blob/master/media/0021_GMapping_English.png)
