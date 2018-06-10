@@ -33,6 +33,7 @@ With odometry and IMU and 2D LiDAR<br>
 <br><br>![SWStack](https://github.com/PINTO0309/zumo32u4/blob/master/media/0023_SWStack_RaspberryPi_English.png)
 ![Robot01](https://github.com/PINTO0309/zumo32u4/blob/master/media/150.png)
 ![Robot02](https://github.com/PINTO0309/zumo32u4/blob/master/media/151.png)
+![Robot03](https://github.com/PINTO0309/zumo32u4/blob/master/media/152.png)
 ## ◆ Procedure for environment building
 
 ### **Perform work with Ubuntu16.04**<br>
