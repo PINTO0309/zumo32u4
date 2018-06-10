@@ -63,7 +63,7 @@ $ ccmake ..
 5. Press the "e" key
 6. Set as shown below
 ![ccmake](https://github.com/PINTO0309/zumo32u4/blob/master/media/ccmake.png)
-7. Execute below
+7. Introduction of navigation package. Execute below.
 ```
 $ make -j3
 $ sudo make install
@@ -113,7 +113,7 @@ $ cd ..
 $ catkin_make -j1
 $ sudo reboot
 ```
-8. Execute below
+8. Introduction of openslam_gmapping package and slam_gmapping meta package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/openslam_gmapping.git
@@ -122,7 +122,7 @@ $ git clone https://github.com/PINTO0309/slam_gmapping.git
 $ cd ..
 $ catkin_make -j1
 ```
-9. Execute below
+9. Introduction of RPLidarROS package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/rplidar_ros.git
@@ -131,7 +131,7 @@ $ catkin_make
 ```
 ### **Perform work with Ubuntu16.04**<br>
 
-10. Execute below
+10. Introduction of rviz option package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/visualization_tutorials.git
@@ -139,7 +139,7 @@ $ git clone https://github.com/PINTO0309/joint_state_publisher.git
 $ git clone https://github.com/PINTO0309/robot_state_publisher.git
 $ catkin_make
 ```
-11. Execute below
+11. Remodel the rosserial library. Execute below.
 ```
 $ cd /home/<username>/Arduino/libraries/Rosserial_Arduino_Library/src
 $ cp ros.h BK_ros.h
@@ -156,7 +156,7 @@ $ git clone https://github.com/PINTO0309/zumo32u4.git
 
 ### **Perform work with RaspberryPi3**<br>
 
-14. Execute below
+14. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/zumo32u4.git
