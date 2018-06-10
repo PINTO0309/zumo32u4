@@ -35,7 +35,7 @@ With odometry and IMU and 2D LiDAR<br>
 7. Working PC1 (Ubuntu16.04 + ROS kinetic + ArduinoIDE 1.8.5)
 8. Working PC2 (Windows10 + TeraTerm)<br><br>
 
-## ◆ Procedure for environment building
+## ◆ Procedure for environment building (Common procedure between GMapping and Google CartoGrapher)
 
 ### **Perform work with Ubuntu16.04**<br>
 
