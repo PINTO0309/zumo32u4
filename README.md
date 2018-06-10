@@ -696,7 +696,7 @@ $ sudo rfcomm listen /dev/rfcomm0 1
 
 <br>
 Windows 10 Launch TeraTerm on PC side and connect to RFCOMM to RaspberryPi.
-<br>
+<br><br>
 
 **Terminal-4**
 ```
