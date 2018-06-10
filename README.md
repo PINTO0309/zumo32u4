@@ -18,7 +18,7 @@ With odometry and IMU and 2D LiDAR<br>
 ## ◆ Change log<br>
 2018.05.05 Ver 0.1.0 Under development<br>
 2018.05.12 Ver 1.0.0 First Release<br>
-2018.06.10 Ver 1.0.1 Bug fix<br>
+2018.06.10 Ver 1.0.1 Bug fix. Maintenance continues for Readme.<br>
 
 ## ◆ Environment<br>
 ![Environment](https://github.com/PINTO0309/zumo32u4/blob/master/media/0021_GMapping_English.png)
