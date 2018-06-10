@@ -31,7 +31,8 @@ With odometry and IMU and 2D LiDAR<br>
 7. Working PC1 (Ubuntu16.04 + ROS kinetic + ArduinoIDE 1.8.5)
 8. Working PC2 (Windows10 + TeraTerm)
 <br><br>![SWStack](https://github.com/PINTO0309/zumo32u4/blob/master/media/0023_SWStack_RaspberryPi_English.png)
-
+![Robot01](https://github.com/PINTO0309/zumo32u4/blob/master/media/150.png)
+![Robot02](https://github.com/PINTO0309/zumo32u4/blob/master/media/151.png)
 ## ◆ Procedure for environment building
 
 ### **Perform work with Ubuntu16.04**<br>
