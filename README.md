@@ -46,7 +46,7 @@ $ export ROS_MASTER_URI=http://<RaspberryPi IPaddress>:11311/
 
 ### **Perform work with RaspberryPi3**<br>
 
-2. Execute below
+2. Introduction of navigation package. Execute below.
 ```
 $ sudo apt update;sudo apt upgrade
 $ sudo apt install -y libbullet-dev libsdl-dev libsdl2-2.0 \
