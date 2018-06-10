@@ -30,6 +30,7 @@ With odometry and IMU and 2D LiDAR<br>
 6. ROS kinetic
 7. Working PC1 (Ubuntu16.04 + ROS kinetic + ArduinoIDE 1.8.5)
 8. Working PC2 (Windows10 + TeraTerm)
+<br><br>![SWStack](https://github.com/PINTO0309/zumo32u4/blob/master/media/0023_SWStack_RaspberryPi_English.png)
 
 ## ◆ Procedure for environment building
 
