@@ -22,6 +22,10 @@ With odometry and IMU and 2D LiDAR<br>
 
 ## ◆ Environment<br>
 ![Environment](https://github.com/PINTO0309/zumo32u4/blob/master/media/0021_GMapping_English.png)
+![SWStack](https://github.com/PINTO0309/zumo32u4/blob/master/media/0023_SWStack_RaspberryPi_English.png)
+![Robot01](https://github.com/PINTO0309/zumo32u4/blob/master/media/150.png)
+![Robot02](https://github.com/PINTO0309/zumo32u4/blob/master/media/151.png)
+![Robot03](https://github.com/PINTO0309/zumo32u4/blob/master/media/152.png)
 1. Zumo32u4 (ATmega32u4)
 2. RaspberryPi3 (Raspbian Stretch + ROS kinetic)
 3. RPLidar A1M8 (SDK ver 1.5.7 / Firmware ver 1.20)
@@ -29,11 +33,8 @@ With odometry and IMU and 2D LiDAR<br>
 5. C++
 6. ROS kinetic
 7. Working PC1 (Ubuntu16.04 + ROS kinetic + ArduinoIDE 1.8.5)
-8. Working PC2 (Windows10 + TeraTerm)
-<br><br>![SWStack](https://github.com/PINTO0309/zumo32u4/blob/master/media/0023_SWStack_RaspberryPi_English.png)
-![Robot01](https://github.com/PINTO0309/zumo32u4/blob/master/media/150.png)
-![Robot02](https://github.com/PINTO0309/zumo32u4/blob/master/media/151.png)
-![Robot03](https://github.com/PINTO0309/zumo32u4/blob/master/media/152.png)
+8. Working PC2 (Windows10 + TeraTerm)<br><br>
+
 ## ◆ Procedure for environment building
 
 ### **Perform work with Ubuntu16.04**<br>
