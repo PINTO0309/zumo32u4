@@ -1,13 +1,19 @@
 # zumo32u4
-**SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br>
+**SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br><br>
 【Japanese article **Gmapping**】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
 【Japanese article **Google CartoGrapher-01**】 https://qiita.com/PINTO/items/4845c438cac05eda4d1e<br>
 【Japanese article **Google CartoGrapher-02**】 https://qiita.com/PINTO/items/fb0d44b2bb9455800667<br>
 【Japanese article **Google CartoGrapher-03**】 https://qiita.com/PINTO/items/d8fd7a91ee00df7702b7<br>
 【Japanese article **Google CartoGrapher-04**】 https://qiita.com/PINTO/items/f8fa5d6ce55317ea590b<br><br>
 **＜Gmapping＞**<br>
-![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br>
+![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br><br>
 **＜Google CartoGrapher＞**<br>
+No odometry and no IMU<br>
+Use 2D LiDAR only<br>
+![CartoGrapherMapMov](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Movie.gif)<br>
+![CartoGrapherMap](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Map.png)<br>
+With odometry and IMU and 2D LiDAR<br>
+![CartoGrapherMapwodomimu](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherWithOdom%2BIMU.gif)<br>
 
 ## ◆ Change log<br>
 2018.05.05 Ver 0.1.0 Under development<br>
@@ -40,7 +46,7 @@ $ export ROS_MASTER_URI=http://<RaspberryPi IPaddress>:11311/
 
 ### **Perform work with RaspberryPi3**<br>
 
-2. Execute below
+2. Introduction of navigation package. Execute below.
 ```
 $ sudo apt update;sudo apt upgrade
 $ sudo apt install -y libbullet-dev libsdl-dev libsdl2-2.0 \
@@ -57,7 +63,7 @@ $ ccmake ..
 5. Press the "e" key
 6. Set as shown below
 ![ccmake](https://github.com/PINTO0309/zumo32u4/blob/master/media/ccmake.png)
-7. Execute below
+7. Introduction of navigation package. Execute below.
 ```
 $ make -j3
 $ sudo make install
@@ -107,7 +113,7 @@ $ cd ..
 $ catkin_make -j1
 $ sudo reboot
 ```
-8. Execute below
+8. Introduction of openslam_gmapping package and slam_gmapping meta package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/openslam_gmapping.git
@@ -116,7 +122,7 @@ $ git clone https://github.com/PINTO0309/slam_gmapping.git
 $ cd ..
 $ catkin_make -j1
 ```
-9. Execute below
+9. Introduction of RPLidarROS package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/rplidar_ros.git
@@ -125,7 +131,7 @@ $ catkin_make
 ```
 ### **Perform work with Ubuntu16.04**<br>
 
-10. Execute below
+10. Introduction of rviz option package. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/visualization_tutorials.git
@@ -133,7 +139,7 @@ $ git clone https://github.com/PINTO0309/joint_state_publisher.git
 $ git clone https://github.com/PINTO0309/robot_state_publisher.git
 $ catkin_make
 ```
-11. Execute below
+11. Remodel the rosserial library. Execute below.
 ```
 $ cd /home/<username>/Arduino/libraries/Rosserial_Arduino_Library/src
 $ cp ros.h BK_ros.h
@@ -150,7 +156,7 @@ $ git clone https://github.com/PINTO0309/zumo32u4.git
 
 ### **Perform work with RaspberryPi3**<br>
 
-14. Execute below
+14. Execute below.
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/PINTO0309/zumo32u4.git
