@@ -167,7 +167,7 @@ $ git clone https://github.com/PINTO0309/zumo32u4.git
 $ cd ..
 $ catkin_make
 ```
-<br><br><br><hr>
+<br><hr>
 ## ◆ Introduction of Google CartoGrapher<br>
 
 ### **Perform work with Ubuntu16.04**<br>
