@@ -9,7 +9,7 @@
 ![MappingView](https://github.com/PINTO0309/zumo32u4/blob/master/media/127.png)<br><br>
 **＜Google CartoGrapher＞**<br>
 No odometry and no IMU<br>
-With 2D LiDAR<br>
+Use 2D LiDAR only<br>
 ![CartoGrapherMapMov](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Movie.gif)<br>
 ![CartoGrapherMap](https://github.com/PINTO0309/zumo32u4/blob/master/media/GoogleCartoGrapherNoneOdom%2BIMU_Map.png)<br>
 With odometry and IMU and LiDAR<br>
