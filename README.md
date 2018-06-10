@@ -26,7 +26,7 @@ With odometry and IMU and 2D LiDAR<br>
 ![Robot01](https://github.com/PINTO0309/zumo32u4/blob/master/media/150.png)
 ![Robot02](https://github.com/PINTO0309/zumo32u4/blob/master/media/151.png)
 ![Robot03](https://github.com/PINTO0309/zumo32u4/blob/master/media/152.png)
-1. Zumo32u4 (ATmega32u4)
+1. Zumo32u4 (ATmega32u4 Assembled with 100:1 HP Motors)
 2. RaspberryPi3 (Raspbian Stretch + ROS kinetic)
 3. RPLidar A1M8 (SDK ver 1.5.7 / Firmware ver 1.20)
 4. Python2.7
