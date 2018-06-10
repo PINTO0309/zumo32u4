@@ -211,3 +211,227 @@ $ roslaunch zumo32u4 zumo32u4rviz.launch
 Connect from Windows 10 PC to Raspberry Pi with TeraTerm.<br>
 And, you can control by the following key operation.
 ![MotorControl](https://github.com/PINTO0309/zumo32u4/blob/master/media/0022_zumo32u4control.png)
+<br><br><br><hr>
+## ◆ Introduction of Google CartoGrapher<br>
+
+### **Perform work with Ubuntu16.04**<br>
+
+1. Execute below.
+```
+$ sudo apt update
+$ sudo apt install -y python-wstool python-rosdep ninja-build
+$ cd catkin_ws
+$ wstool init src
+$ wstool merge -t src https://raw.githubusercontent.com/googlecartographer/cartographer_ros/master/cartographer_ros.rosinstall
+$ wstool update -t src
+$ src/cartographer/scripts/install_proto3.sh
+$ sudo rosdep init   #<--- エラーになっても無視
+$ rosdep update
+$ rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+$ catkin_make_isolated --install --use-ninja
+$ source install_isolated/setup.bash
+```
+
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
+
+2. Execute below.
+```
+$ sudo apt update;sudo apt upgrade
+$ sudo apt install -y python-wstool python-rosdep ninja-build
+$ cd catkin_ws
+$ wstool init src
+$ wstool merge -t src https://raw.githubusercontent.com/googlecartographer/cartographer_ros/master/cartographer_ros.rosinstall
+$ wstool update -t src
+$ src/cartographer/scripts/install_proto3.sh
+$ sudo rosdep init   #<--- Ignoring an error
+$ rosdep update
+$ rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+```
+3. Execute below.
+```
+$ sudo nano /etc/dphys-swapfile
+CONF_SWAPSIZE=2048
+$ sudo /etc/init.d/dphys-swapfile restart swapon -s
+$ sudo apt install libsuitesparse-dev libsuitesparseconfig4 libcxsparse3 \
+libmetis-dev libmetis5 libmetis5-dbg metis libtbb-dev libtbb2 lua-bit32 \
+lua-bit32-dev liblua5.3-0 liblua5.3-0-dbg liblua5.3-dev lua5.3 sphinx-common \
+liburdfdom-tools libogre-1.9.0v5 ogre-1.9-tools libogre-1.9-dev \
+assimp-utils libassimp3v5 python-pyassimp libassimp-dev \
+qt3d-assimpsceneio-plugin sip-dev librviz-dev librviz2d python-rviz rviz
+$ cd src
+$ git clone https://github.com/PINTO0309/urdf.git
+$ git clone https://github.com/PINTO0309/urdfdom_headers.git
+$ git clone https://github.com/PINTO0309/rosconsole_bridge.git
+$ cd urdfdom_headers
+$ mkdir build && cd build && cmake ../ && make && sudo make install
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/PINTO0309/urdfdom.git
+$ cd urdfdom
+$ mkdir build && cd build && cmake ../ && make && sudo make install
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/PINTO0309/interactive_markers.git
+$ git clone https://github.com/PINTO0309/python_qt_binding.git
+$ git clone https://github.com/PINTO0309/resource_retriever.git
+$ git clone https://github.com/PINTO0309/robot_state_publisher.git
+$ git clone https://github.com/PINTO0309/kdl_parser.git
+$ git clone https://github.com/PINTO0309/rplidar_ros.git
+$ git clone https://github.com/PINTO0309/rosserial.git
+$ git clone https://github.com/PINTO0309/zumo32u4.git
+$ cd ~
+$ git clone https://github.com/PINTO0309/pybindgen.git
+$ cd pybindgen
+$ sudo python setup.py install
+$ cd ~/catkin_ws/src/cartographer_ros
+$ rm -r -f cartographer_rviz
+$ cd ~/catkin_ws
+$ catkin_make_isolated -j1 --install --use-ninja
+$ source install_isolated/setup.bash
+```
+
+### **Perform work with Ubuntu16.04**<br>
+4. Execute below.
+```
+$ cd ~/catkin_ws/src/zumo32u4/urdf
+$ cp zumo32u4.STL ~/catkin_ws/install_isolated/share/cartographer_ros/urdf
+$ cp zumo32u4.gv ~/catkin_ws/install_isolated/share/cartographer_ros/urdf
+$ cp zumo32u4.urdf ~/catkin_ws/install_isolated/share/cartographer_ros/urdf
+$ nano ~/catkin_ws/install_isolated/share/cartographer_ros/urdf/zumo32u4.urdf
+```
+```
+<geometry>
+    <mesh filename="package://cartographer_ros/urdf/zumo32u4.STL" scale="1 1 1"/>
+</geometry>
+```
+5. Execute below.
+```
+$ cd ~/catkin_ws
+$ catkin_make_isolated --install --use-ninja
+$ source install_isolated/setup.bash
+```
+
+### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
+6. Execute below.
+```
+$ cd ~/catkin_ws/src/cartographer_ros/cartographer_ros/launch
+$ cp backpack_2d.launch BK_backpack_2d.launch
+$ nano backpack_2d.launch
+```
+```
+<?xml version="1.0" ?>
+<launch>
+  <param
+      name="robot_description"
+      textfile="$(find zumo32u4)/urdf/zumo32u4.urdf"
+  />
+
+  <node
+     name="horizontal_laser"
+     pkg="rplidar_ros"
+     type="rplidarNode"
+     output="screen">
+     <param name="serial_port"      type="string" value="/dev/ttyUSB0"/>
+     <param name="serial_baudrate"  type="int"    value="115200"/>
+     <param name="frame_id"         type="string" value="horizontal_laser_link"/>
+     <param name="inverted"         type="bool"   value="false"/>
+     <param name="angle_compensate" type="bool"   value="true"/>
+  </node>
+
+  <node
+      pkg="tf"
+      type="static_transform_publisher"
+      name="base_link_connect"
+      args="0 0 0 0 0 0 /base_link /horizontal_laser_link 100"
+  />
+
+  <node
+      pkg="tf"
+      type="static_transform_publisher"
+      name="imu_link_connect"
+      args="0 0 0 0 0 0 /base_link /imu_link 100"
+  />
+
+  <node
+      name="cartographer_node"
+      pkg="cartographer_ros"
+      type="cartographer_node"
+      args="-configuration_directory $(find cartographer_ros)/configuration_files -configuration_basename backpack_2d.lua"
+      output="screen">
+  </node>
+
+  <node
+      name="cartographer_occupancy_grid_node"
+      pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node"
+      args="-resolution 0.05"
+  />
+</launch>
+```
+7. Execute below.
+```
+$ cd ~/catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files
+$ cp backpack_2d.lua BK_backpack_2d.lua
+$ nano backpack_2d.lua
+```
+```
+include "map_builder.lua"
+include "trajectory_builder.lua"
+
+options = {
+  map_builder = MAP_BUILDER,
+  trajectory_builder = TRAJECTORY_BUILDER,
+  map_frame = "map",
+  tracking_frame = "base_link",
+  published_frame = "odom",
+  odom_frame = "odom",
+  provide_odom_frame = false,
+  publish_frame_projected_to_2d = false,
+  use_odometry = true,
+  use_nav_sat = false,
+  use_landmarks = false,
+  num_laser_scans = 1,
+  num_multi_echo_laser_scans = 0,
+  num_subdivisions_per_laser_scan = 1,
+  num_point_clouds = 0,
+  lookup_transform_timeout_sec = 0.2,
+  submap_publish_period_sec = 0.3,
+  pose_publish_period_sec = 5e-3,
+  trajectory_publish_period_sec = 30e-3,
+  rangefinder_sampling_ratio = 1.,
+  odometry_sampling_ratio = 1.,
+  fixed_frame_pose_sampling_ratio = 1.,
+  imu_sampling_ratio = 1.,
+  landmarks_sampling_ratio = 1.,
+}
+
+MAP_BUILDER.use_trajectory_builder_2d = true
+
+TRAJECTORY_BUILDER_2D.min_range = 0.
+TRAJECTORY_BUILDER_2D.max_range = 20.
+TRAJECTORY_BUILDER_2D.missing_data_ray_length = 5.
+TRAJECTORY_BUILDER_2D.use_imu_data = true
+TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
+
+POSE_GRAPH.constraint_builder.min_score = 0.65
+POSE_GRAPH.constraint_builder.global_localization_min_score = 0.7
+
+POSE_GRAPH.optimization_problem.local_slam_pose_translation_weight = 1e5
+POSE_GRAPH.optimization_problem.local_slam_pose_rotation_weight = 1e5
+POSE_GRAPH.optimization_problem.odometry_translation_weight = 1e5
+POSE_GRAPH.optimization_problem.odometry_rotation_weight = 1e5
+POSE_GRAPH.optimization_problem.huber_scale = 1e3
+
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.occupied_space_weight = 10
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 40
+
+TRAJECTORY_BUILDER_2D.submaps.num_range_data = 120
+TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.1
+TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(0.2)
+
+return options
+```
+8. Execute below.
+```
+$ cd ~/catkin_ws
+$ catkin_make_isolated --install --use-ninja
+$ source install_isolated/setup.bash
+```
