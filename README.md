@@ -1,4 +1,4 @@
-# zumo32u4
+# zumo32u4 (Assembled with 100:1 HP Motors)
 **SLAM by RaspberryPi3 + Zumo32u4 + RPLidarA1M8**<br><br>
 【Japanese article **Gmapping**】 https://qiita.com/PINTO/items/9aa737c284dc4e8212f1<br><br>
 【Japanese article **Google CartoGrapher-01**】 https://qiita.com/PINTO/items/4845c438cac05eda4d1e<br>
