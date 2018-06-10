@@ -167,50 +167,6 @@ $ git clone https://github.com/PINTO0309/zumo32u4.git
 $ cd ..
 $ catkin_make
 ```
-
-## ◆ Execution and visualization of map generation by RaspberryPi + Arduino + RPLidar A1M8<br>
-
-### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
-
-**Terminal-1**
-```
-$ roscore
-```
-**Terminal-2**
-```
-$ rosrun zumo32u4 zumo32u4.py
-```
-**Terminal-3**
-```
-$ roslaunch rplidar_ros rplidar.launch
-```
-**Terminal-4**
-```
-$ roslaunch rplidar_ros slam.launch
-```
-**Terminal-5**
-```
-$ rosrun tf static_transform_publisher 0 0 0 0 0 0 base_link laser 100
-$ rosrun tf static_transform_publisher 0 0 0 0 0 0 odom base_link 100
-```
-
-### **Perform work with Ubuntu**<br>
-
-**Terminal-1**
-```
-$ export ROS_MASTER_URI=http://raspberrypi.local:11311/
-OR
-$ export ROS_MASTER_URI=http://<RaspberryPi IPaddress>:11311/
-
-$ roscd zumo32u4
-$ roslaunch zumo32u4 zumo32u4rviz.launch
-```
-
-## ◆ Zumo32u4 operation key mapping<br>
-
-Connect from Windows 10 PC to Raspberry Pi with TeraTerm.<br>
-And, you can control by the following key operation.
-![MotorControl](https://github.com/PINTO0309/zumo32u4/blob/master/media/0022_zumo32u4control.png)
 <br><br><br><hr>
 ## ◆ Introduction of Google CartoGrapher<br>
 
@@ -762,3 +718,8 @@ $ source install_isolated/setup.bash
 $ export ROS_MASTER_URI=http://raspberrypi.local:11311/
 $ roslaunch cartographer_ros backpack_2d.launch
 ```
+## ◆ Zumo32u4 operation key mapping<br>
+
+Connect from Windows 10 PC to Raspberry Pi with TeraTerm.<br>
+And, you can control by the following key operation.
+![MotorControl](https://github.com/PINTO0309/zumo32u4/blob/master/media/0022_zumo32u4control.png)
