@@ -677,7 +677,7 @@ $ catkin_make_isolated --install --use-ninja
 $ source install_isolated/setup.bash
 ```
 
-## ◆ Execution and visualization of map generation by RaspberryPi + Arduino + RPLidar A1M8<br>
+## ◆ Execution and visualization of map generation by RaspberryPi + Arduino + RPLidar A1M8 + Google CartoGrapher<br>
 
 ### **Perform work with RaspberryPi3 (Raspbian Stretch)**<br>
 
