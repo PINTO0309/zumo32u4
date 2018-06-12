@@ -126,10 +126,11 @@ class Zumo:
             self.temps=self.sensorvalue[0]
             #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
         else :
+            rospy.loginfo("[theta] "+str(self.theta + self.deltat*(VL-VR)/self.INTERAXIS/2*3.14))
             VR=0.0
             VL=0.0
             self.temps=self.sensorvalue[0]
-  
+
         self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
         self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
         self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
