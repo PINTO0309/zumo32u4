@@ -126,6 +126,7 @@ class Zumo:
         else :
             VR=0.0
             VL=0.0
+            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000
             self.temps=self.sensorvalue[0]
   
         self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
