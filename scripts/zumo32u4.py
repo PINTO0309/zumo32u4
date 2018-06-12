@@ -25,7 +25,7 @@ class Zumo:
         self.odomL=0.0
         self.deltat=0.0
         self.command=""
-        self.adjustcount=0
+#        self.adjustcount=0
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -119,23 +119,37 @@ class Zumo:
     def pubodom(self):
         VR=0.0
         VL=0.0
-        if (float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL) and self.command!="s":
-            if self.adjustcount<=0:
-                self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
-                VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-                VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
-                self.odomL=float(self.sensorvalue[9])
-                self.odomR=float(self.sensorvalue[10])
-                self.temps=self.sensorvalue[0]
-            else:
-                self.adjustcount-=1
-                VR=0.0
-                VL=0.0
-                self.temps=self.sensorvalue[0]
-                rospy.loginfo("count="+str(self.adjustcount))
+#        if (float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL) and self.command!="s":
+#            if self.adjustcount<=0:
+#                self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
+#                VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
+#                VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
+#                self.odomL=float(self.sensorvalue[9])
+#                self.odomR=float(self.sensorvalue[10])
+#                self.temps=self.sensorvalue[0]
+#            else:
+#                self.adjustcount-=1
+#                VR=0.0
+#                VL=0.0
+#                self.temps=self.sensorvalue[0]
+#                rospy.loginfo("count="+str(self.adjustcount))
+#            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
+#        else:
+#            self.adjustcount=20
+#            VR=0.0
+#            VL=0.0
+#            self.temps=self.sensorvalue[0]
+#            rospy.loginfo("[theta] "+str(self.theta + self.deltat*(VL-VR)/self.INTERAXIS/2*3.14))
+
+        if self.command!="s":
+            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000           #[Second] Elapsed time from latest measurement
+            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
+            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
+#            self.odomL=float(self.sensorvalue[9])
+#            self.odomR=float(self.sensorvalue[10])
+            self.temps=self.sensorvalue[0]
             #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
         else:
-            self.adjustcount=20
             VR=0.0
             VL=0.0
             self.temps=self.sensorvalue[0]
