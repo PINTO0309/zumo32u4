@@ -143,8 +143,10 @@ class Zumo:
 
         if self.command!="s":
             self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000           #[Second] Elapsed time from latest measurement
-            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
+#            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
+#            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
+            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
+            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
 #            self.odomL=float(self.sensorvalue[9])
 #            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
@@ -154,11 +156,15 @@ class Zumo:
             VR=0.0
             VL=0.0
             self.temps=self.sensorvalue[0]
-            rospy.loginfo("[theta] "+str(self.theta + self.deltat*(VL-VR)/self.INTERAXIS/2*3.14))
+            rospy.loginfo("[theta] "+str(self.theta)
 
-        self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
-        self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
-        self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
+#        self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
+#        self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
+#        self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
+        self.o.pose.pose.position.x += VL*cos(self.theta)
+        self.o.pose.pose.position.y += VL*sin(self.theta)
+        self.theta += VL/self.INTERAXIS/2
+
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
         #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
         #rospy.loginfo("[theta] "+str(self.theta))
@@ -167,9 +173,13 @@ class Zumo:
         self.o.pose.pose.orientation.y = quat[1]
         self.o.pose.pose.orientation.z = quat[2]
         self.o.pose.pose.orientation.w = quat[3]
-        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
-        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
-        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
+#        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
+#        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
+#        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
+        self.o.twist.twist.linear.x =VL*cos(self.theta)
+        self.o.twist.twist.linear.y =VL*sin(self.theta)
+        self.o.twist.twist.angular.z = VL/self.INTERAXIS/2
+
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
         
