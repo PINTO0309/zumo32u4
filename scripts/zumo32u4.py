@@ -117,29 +117,17 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
-        if (self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL) and \
-            self.command!="s" and self.command!="i" and self.command!="l" and self.command!="j" and self.command!=",":
-            if self.adjustcount <= 0:
-                self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                           #[Second] Elapsed time from latest measurement
-                VR=float(int(self.sensorvalue[10])-self.odomR)/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-                VL=float(int(self.sensorvalue[9])-self.odomL) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
-                self.odomL=int(self.sensorvalue[9])
-                self.odomR=int(self.sensorvalue[10])
-                self.temps=self.sensorvalue[0]
-            else:
-                self.adjustcount -= 1
-                VR=0.0
-                VL=0.0
-                self.odomL=int(self.sensorvalue[9])
-                self.odomR=int(self.sensorvalue[10])
-                self.temps=self.sensorvalue[0]
-            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
-        else:
-            self.adjustcount = 20
-            VR=0.0
-            VL=0.0
+        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
+            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                      #[Second] Elapsed time from latest measurement
+            VR=(int(self.sensorvalue[10])-self.odomR)/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
+            VL=(int(self.sensorvalue[9])-self.odomL) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
             self.odomL=int(self.sensorvalue[9])
             self.odomR=int(self.sensorvalue[10])
+            self.temps=self.sensorvalue[0]
+            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
+        else :
+            VR=0.0
+            VL=0.0
             self.temps=self.sensorvalue[0]
   
         self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
