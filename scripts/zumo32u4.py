@@ -18,7 +18,7 @@ class Zumo:
     def __init__(self):
         self.DIAMETER=0.039  #[Meter] Diameter of tire
         self.INTERAXIS=0.084 #[Meter] Distance between left and right tires
-        self.COUNT=48        #Resolution of encoder
+        self.COUNT=12        #Resolution of encoder
         self.temps=0.0
         self.theta=0.0
         self.odomR=0.0
@@ -146,7 +146,7 @@ class Zumo:
 #            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
 #            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
             VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
-            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
+            VL=float(self.sensorvalue[9]) /1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
 #            self.odomL=float(self.sensorvalue[9])
 #            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
