@@ -25,6 +25,7 @@ class Zumo:
         self.odomL=0.0
         self.deltat=0.0
         self.command=""
+        self.adjustcount=0
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -117,14 +118,21 @@ class Zumo:
     
     def pubodom(self):
         if (self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL) and self.command!="s":
-            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
-            VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-            VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
-            self.odomL=float(self.sensorvalue[9])
-            self.odomR=float(self.sensorvalue[10])
-            self.temps=self.sensorvalue[0]
+            if self.adjustcount <= 0:
+                self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
+                VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
+                VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
+                self.odomL=float(self.sensorvalue[9])
+                self.odomR=float(self.sensorvalue[10])
+                self.temps=self.sensorvalue[0]
+            else:
+                self.adjustcount -= 1
+                VR=0.0
+                VL=0.0
+                self.temps=self.sensorvalue[0]
             #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
-        else :
+        else:
+            self.adjustcount = 20
             VR=0.0
             VL=0.0
             self.temps=self.sensorvalue[0]
