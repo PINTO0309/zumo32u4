@@ -117,7 +117,7 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
-        if (self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL) and self.command!="s":
+        if (self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL) and self.command!="":
             if self.adjustcount <= 0:
                 self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
                 VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
@@ -129,12 +129,16 @@ class Zumo:
                 self.adjustcount -= 1
                 VR=0.0
                 VL=0.0
+                self.odomL=float(self.sensorvalue[9])
+                self.odomR=float(self.sensorvalue[10])
                 self.temps=self.sensorvalue[0]
             #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
         else:
             self.adjustcount = 20
             VR=0.0
             VL=0.0
+            self.odomL=float(self.sensorvalue[9])
+            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
   
         self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
