@@ -115,7 +115,7 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
-        if float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL:
+        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
             self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
             VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
             VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
@@ -126,7 +126,6 @@ class Zumo:
         else :
             VR=0.0
             VL=0.0
-            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000
             self.temps=self.sensorvalue[0]
   
         self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
