@@ -24,6 +24,7 @@ class Zumo:
         self.odomR=0.0
         self.odomL=0.0
         self.deltat=0.0
+        self.command=""
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -81,11 +82,11 @@ class Zumo:
     def pubcommand(self):
         try:
             self.ser.flush()
-            command = ""
-            command = self.ser.read()
-            if command != "":
-                rospy.loginfo("Command received ["+command+"]")
-                self.pub_comm.publish(command)
+            self.command = ""
+            self.command = self.ser.read()
+            if self.command != "":
+                rospy.loginfo("Command received ["+self.command+"]")
+                self.pub_comm.publish(self.command)
         except:
             #print "pubcommand Error"
             #traceback.print_exc()
@@ -115,7 +116,7 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
-        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
+        if (self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL) and self.command!="s":
             self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
             VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
             VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
