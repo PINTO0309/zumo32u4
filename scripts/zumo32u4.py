@@ -145,7 +145,7 @@ class Zumo:
             self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000           #[Second] Elapsed time from latest measurement
 #            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
 #            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
-            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
+            VR=float(self.sensorvalue[10])/1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
             VL=float(self.sensorvalue[9]) /1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
 #            self.odomL=float(self.sensorvalue[9])
 #            self.odomR=float(self.sensorvalue[10])
@@ -160,9 +160,9 @@ class Zumo:
         #self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
         #self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
         #self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
-        self.o.pose.pose.position.x += VL*cos(self.theta)
-        self.o.pose.pose.position.y += VL*sin(self.theta)
-        self.theta += VL/self.INTERAXIS/2
+        self.o.pose.pose.position.x += (VL+VR)*cos(self.theta)
+        self.o.pose.pose.position.y += (VL+VR)*sin(self.theta)
+        self.theta += (VL+VR)/self.INTERAXIS/2
         rospy.loginfo("[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
@@ -176,9 +176,9 @@ class Zumo:
 #        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
 #        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
 #        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
-        self.o.twist.twist.linear.x =VL*cos(self.theta)
-        self.o.twist.twist.linear.y =VL*sin(self.theta)
-        self.o.twist.twist.angular.z = VL/self.INTERAXIS/2
+        self.o.twist.twist.linear.x =(VL+VR)*cos(self.theta)
+        self.o.twist.twist.linear.y =(VL+VR)*sin(self.theta)
+        self.o.twist.twist.angular.z = (VL+VR)/self.INTERAXIS/2
 
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
