@@ -150,7 +150,6 @@ class Zumo:
 #            self.odomL=float(self.sensorvalue[9])
 #            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
-            rospy.loginfo("[theta] "+str(self.theta))
             #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
         else:
             VR=0.0
@@ -158,12 +157,13 @@ class Zumo:
             self.temps=self.sensorvalue[0]
             rospy.loginfo("[theta] "+str(self.theta))
 
-        self.o.pose.pose.position.x += VL*cos(self.theta)
-        self.o.pose.pose.position.y += VL*sin(self.theta)
-        self.theta += VL/self.INTERAXIS/2
         #self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
         #self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
         #self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
+        self.o.pose.pose.position.x += VL*cos(self.theta)
+        self.o.pose.pose.position.y += VL*sin(self.theta)
+        self.theta += VL/self.INTERAXIS/2
+        rospy.loginfo("[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
         #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
