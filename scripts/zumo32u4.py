@@ -16,16 +16,14 @@ from std_msgs.msg import String
 
 class Zumo:
     def __init__(self):
-        self.DIAMETER=0.039  #[Meter] Diameter of tire
-        self.INTERAXIS=0.084 #[Meter] Distance between left and right tires
-        self.COUNT=12        #Resolution of encoder
-        self.temps=0.0
-        self.theta=0.0
-        self.odomR=0.0
-        self.odomL=0.0
-        self.deltat=0.0
-        self.command=""
-#        self.adjustcount=0
+        self.DIAMETER=0.039              #[Meter]  Diameter of tire
+        self.INTERAXIS=0.084             #[Meter]  Distance between left and right tires
+        self.COUNT=12                    #[Count]  Resolution of encoder
+        self.RADIANPERENCODER=0.00121043 #[Radian] Radian per encoder count 1
+        self.temps=0.0                   #[Second] Last measured time
+        self.delta=0.0                   #[Second] Elapsed time
+        self.theta=0.0                   #[Radian] Radian
+        self.command=""                  #[String] Robot operation command
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -89,8 +87,6 @@ class Zumo:
                 rospy.loginfo("Command received ["+self.command+"]")
                 self.pub_comm.publish(self.command)
         except:
-            #print "pubcommand Error"
-            #traceback.print_exc()
             pass
 
     def subsensorval(self, svalue):
@@ -104,7 +100,6 @@ class Zumo:
         except:
             print "subsensorval Error"
             traceback.print_exc()
-            #pass
 
     def pubimu(self):
         self.p.linear_acceleration.x=4*9.81*(float(self.sensorvalue[1])/2**16)/100
@@ -117,61 +112,25 @@ class Zumo:
         self.pub_imu.publish(self.p)
     
     def pubodom(self):
+
         VR=0.0
         VL=0.0
-#        if (float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL) and self.command!="s":
-#            if self.adjustcount<=0:
-#                self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000                               #[Second] Elapsed time from latest measurement
-#                VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-#                VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.deltat   #[Meter] Advance distance of left wheel
-#                self.odomL=float(self.sensorvalue[9])
-#                self.odomR=float(self.sensorvalue[10])
-#                self.temps=self.sensorvalue[0]
-#            else:
-#                self.adjustcount-=1
-#                VR=0.0
-#                VL=0.0
-#                self.temps=self.sensorvalue[0]
-#                rospy.loginfo("count="+str(self.adjustcount))
-#            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
-#        else:
-#            self.adjustcount=20
-#            VR=0.0
-#            VL=0.0
-#            self.temps=self.sensorvalue[0]
-#            rospy.loginfo("[theta] "+str(self.theta + self.deltat*(VL-VR)/self.INTERAXIS/2*3.14))
 
-        if self.command!="s":
-            self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000           #[Second] Elapsed time from latest measurement
-#            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
-#            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
-#            VR=float(self.sensorvalue[10])/1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
-#            VL=float(self.sensorvalue[9]) /1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
+        self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000  #[Second] Elapsed time from latest measurement
+        VL=float(self.sensorvalue[9])                                    #[Meter] Advance distance of left wheel
+        VR=float(self.sensorvalue[10])                                   #[Meter] Advance distance of right wheel
+        self.temps=self.sensorvalue[0]
+        vel = ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2
 
-            VR=float(self.sensorvalue[10])  #[Meter] Advance distance of right wheel
-            VL=float(self.sensorvalue[9])   #[Meter] Advance distance of left wheel
-#            self.odomL=float(self.sensorvalue[9])
-#            self.odomR=float(self.sensorvalue[10])
-            self.temps=self.sensorvalue[0]
-            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
-        else:
-            VR=0.0
-            VL=0.0
-            self.temps=self.sensorvalue[0]
-            rospy.loginfo("[theta] "+str(self.theta))
-
-        #self.o.pose.pose.position.x += self.deltat*(VR+VL)/2*cos(self.theta)
-        #self.o.pose.pose.position.y += self.deltat*(VR+VL)/2*sin(self.theta)
-        #self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
-        self.o.pose.pose.position.x += (VL-VR)*cos(self.theta)
-        self.o.pose.pose.position.y += (VL-VR)*sin(self.theta)
-        #self.theta += (VL-VR)/self.INTERAXIS/2
-        self.theta += ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2*0.00121043
+        #self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
+        #self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
+        #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
+        self.o.pose.pose.position.x += vel*cos(self.theta)
+        self.o.pose.pose.position.y += vel*sin(self.theta)
+        self.theta += vel*self.RADIANPERENCODER
         rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
-        #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [deltat] "+str(self.deltat)+" [VL] "+str(VL)+" [VR] "+str(VR))
-        #rospy.loginfo("[theta] "+str(self.theta))
 
         self.o.pose.pose.orientation.x = quat[0]
         self.o.pose.pose.orientation.y = quat[1]
@@ -180,9 +139,9 @@ class Zumo:
 #        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
 #        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
 #        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
-        self.o.twist.twist.linear.x =(VL-VR)*cos(self.theta)
-        self.o.twist.twist.linear.y =(VL-VR)*sin(self.theta)
-        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2
+        self.o.twist.twist.linear.x = vel*cos(self.theta)
+        self.o.twist.twist.linear.y = vel*sin(self.theta)
+        self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
 
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
