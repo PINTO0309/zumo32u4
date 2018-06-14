@@ -145,8 +145,11 @@ class Zumo:
             self.deltat=(float(self.sensorvalue[0])-float(self.temps))/1000           #[Second] Elapsed time from latest measurement
 #            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of right wheel
 #            VL=float(self.sensorvalue[9]) /self.COUNT*3.14*self.DIAMETER/self.deltat  #[Meter] Advance distance of left wheel
-            VR=float(self.sensorvalue[10])/1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
-            VL=float(self.sensorvalue[9]) /1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
+#            VR=float(self.sensorvalue[10])/1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of right wheel
+#            VL=float(self.sensorvalue[9]) /1204.44*3.14*self.DIAMETER  #[Meter] Advance distance of left wheel
+
+            VR=float(self.sensorvalue[10])  #[Meter] Advance distance of right wheel
+            VL=float(self.sensorvalue[9])   #[Meter] Advance distance of left wheel
 #            self.odomL=float(self.sensorvalue[9])
 #            self.odomR=float(self.sensorvalue[10])
             self.temps=self.sensorvalue[0]
@@ -162,7 +165,8 @@ class Zumo:
         #self.theta += self.deltat*(VL-VR)/self.INTERAXIS/2*3.14
         self.o.pose.pose.position.x += (VL-VR)*cos(self.theta)
         self.o.pose.pose.position.y += (VL-VR)*sin(self.theta)
-        self.theta += (VL-VR)/self.INTERAXIS/2
+        #self.theta += (VL-VR)/self.INTERAXIS/2
+        self.theta += ((VL>0)-(VL<0))×(abs(VL)+abs(VR))÷2×0.00121043
         rospy.loginfo("[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
