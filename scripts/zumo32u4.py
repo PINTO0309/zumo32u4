@@ -166,7 +166,7 @@ class Zumo:
         self.o.pose.pose.position.x += (VL-VR)*cos(self.theta)
         self.o.pose.pose.position.y += (VL-VR)*sin(self.theta)
         #self.theta += (VL-VR)/self.INTERAXIS/2
-        self.theta += ((VL>0)-(VL<0))×(abs(VL)+abs(VR))÷2×0.00121043
+        self.theta += ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2*0.00121043
         rospy.loginfo("[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
