@@ -125,9 +125,10 @@ class Zumo:
         #self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
         #self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
         #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
-        self.o.pose.pose.position.x += self.delta*vel*cos(self.theta)
-        self.o.pose.pose.position.y += self.delta*vel*sin(self.theta)
-        if (VL>0 and VR<0) or (VL<0 and VR>0):
+        if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
+            self.o.pose.pose.position.x += self.delta*vel*cos(self.theta)
+            self.o.pose.pose.position.y += self.delta*vel*sin(self.theta)
+        if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
             self.theta += vel*self.RADIANPERENCODER
             rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
 
