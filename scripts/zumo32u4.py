@@ -147,7 +147,8 @@ class Zumo:
         self.o.pose.pose.orientation.w = quat[3]
         self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
         self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
-        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
+        #self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
+        self.o.twist.twist.angular.z = rad
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
         
