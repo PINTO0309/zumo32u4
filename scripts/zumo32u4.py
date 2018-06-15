@@ -127,12 +127,15 @@ class Zumo:
             self.odomR = float(self.sensorvalue[10])
 
             if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-                self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
-                self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
+                self.o.pose.pose.position.x += (VR+VL)/2*cos(self.theta)
+                self.o.pose.pose.position.y += (VR+VL)/2*sin(self.theta)
 
             if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
                 self.theta += vel*self.RADIANPERENCODER
             #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
+        else:
+            VL=0.0
+            VR=0.0
 
         self.temps=self.sensorvalue[0]
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
