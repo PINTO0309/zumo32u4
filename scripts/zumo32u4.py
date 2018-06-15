@@ -119,7 +119,6 @@ class Zumo:
         self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000  #[Second] Elapsed time from latest measurement
         VL=float(self.sensorvalue[9])                                   #[Count] Advance distance of left wheel
         VR=float(self.sensorvalue[10])                                  #[Count] Advance distance of right wheel
-        self.temps=self.sensorvalue[0]
         vel = ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2
         VLP=VL/self.COUNT*3.14*self.DIAMETER/self.delta
         VRP=VR/self.COUNT*3.14*self.DIAMETER/self.delta
@@ -130,8 +129,9 @@ class Zumo:
         if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
             #self.o.pose.pose.position.x += vel*cos(self.theta)
             #self.o.pose.pose.position.y += vel*sin(self.theta)
-            self.o.pose.pose.position.x += (VLP+VRP)/2*cos(self.theta)
-            self.o.pose.pose.position.y += (VLP+VRP)/2*sin(self.theta)
+            self.o.pose.pose.position.x += self.deltat*(VRP+VLP)/2*cos(self.theta)
+            self.o.pose.pose.position.y += self.deltat*(VRP+VLP)/2*sin(self.theta)
+            self.temps=self.sensorvalue[0]
         if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
             self.theta += vel*self.RADIANPERENCODER
             #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
