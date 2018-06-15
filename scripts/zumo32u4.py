@@ -121,8 +121,8 @@ class Zumo:
         VR=float(self.sensorvalue[10])                                  #[Count] Advance distance of right wheel
         self.temps=self.sensorvalue[0]
         vel = ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2
-        VLP=VL/self.COUNT*3.14*self.DIAMETER/delta
-        VRP=VR/self.COUNT*3.14*self.DIAMETER/delta
+        VLP=VL/self.COUNT*3.14*self.DIAMETER/self.delta
+        VRP=VR/self.COUNT*3.14*self.DIAMETER/self.delta
 
         #self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
         #self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
