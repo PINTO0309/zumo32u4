@@ -127,8 +127,9 @@ class Zumo:
         #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
         self.o.pose.pose.position.x += vel*cos(self.theta)
         self.o.pose.pose.position.y += vel*sin(self.theta)
-        self.theta += vel*self.RADIANPERENCODER
-        rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
+        if (VL>0 and VR<0) or (VL<0 and VR>0):
+            self.theta += vel*self.RADIANPERENCODER
+            rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
