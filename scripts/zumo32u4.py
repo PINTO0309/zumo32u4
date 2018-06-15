@@ -118,45 +118,32 @@ class Zumo:
         VL=0.0
         VR=0.0
 
-        if int(self.sensorvalue[10])!=self.odomR or int(self.sensorvalue[9])!=self.odomL:
-            self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000          #[Second] Elapsed time from latest measurement
-            VL=float(self.sensorvalue[9])/self.COUNT*3.14*self.DIAMETER/self.delta  #[Meter] Advance distance of left wheel
-            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.delta #[Meter] Advance distance of right wheel
-            vel = ((float(self.sensorvalue[9])>0)-(float(self.sensorvalue[9])<0))*(abs(float(self.sensorvalue[9]))+abs(float(self.sensorvalue[10])))/2
-            self.odomL = self.sensorvalue[9]
-            self.odomR = self.sensorvalue[10]
-
-            if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-                self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
-                self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
-
-            if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
-                #self.theta += vel*self.RADIANPERENCODER
-                 self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
-            #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
-        else:
-            VL=0.0
+        if float(self.sensorvalue[10])!=self.odomR or float(self.sensorvalue[9])!=self.odomL:
+            self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000 #[Second] Elapsed time from latest measurement
+            VR=(float(self.sensorvalue[10])-float(self.odomR))/self.COUNT*3.14*self.DIAMETER/self.delta #[Meter] Advance distance of right wheel
+            VL=(float(self.sensorvalue[9])-float(self.odomL))/self.COUNT*3.14*self.DIAMETER/self.delta #[Meter] Advance distance of left wheel
+            self.odomL=float(self.sensorvalue[9])
+            self.odomR=float(self.sensorvalue[10])
+            self.temps=self.sensorvalue[0]
+            #rospy.loginfo("[odomL] "+str(self.odomL)+" [odomR] "+str(self.odomR)+" [delta] "+str(self.delta)+" [VL] "+str(VL)+" [VR] "+str(VR))
+        else :
             VR=0.0
+            VL=0.0
+            self.temps=self.sensorvalue[0]
+        self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
+        self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
 
-        self.temps=self.sensorvalue[0]
+        self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
+
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
         self.o.pose.pose.orientation.x = quat[0]
         self.o.pose.pose.orientation.y = quat[1]
         self.o.pose.pose.orientation.z = quat[2]
         self.o.pose.pose.orientation.w = quat[3]
-
-        if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-            self.o.twist.twist.linear.x = (VR+VL)/2*cos(self.theta)
-            self.o.twist.twist.linear.y = (VR+VL)/2*sin(self.theta)
-        else:
-            self.o.twist.twist.linear.x = 0
-            self.o.twist.twist.linear.y = 0
-
-        if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
-            #self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
-            self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
-
+        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
+        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
+        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
         
