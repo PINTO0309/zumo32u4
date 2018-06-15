@@ -129,8 +129,8 @@ class Zumo:
         if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
             #self.o.pose.pose.position.x += vel*cos(self.theta)
             #self.o.pose.pose.position.y += vel*sin(self.theta)
-            self.o.pose.pose.position.x += self.delta*(VRP+VLP)/2*cos(self.theta)
-            self.o.pose.pose.position.y += self.delta*(VRP+VLP)/2*sin(self.theta)
+            self.o.pose.pose.position.x += (VRP+VLP)/2*cos(self.theta)
+            self.o.pose.pose.position.y += (VRP+VLP)/2*sin(self.theta)
             self.temps=self.sensorvalue[0]
         if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
             self.theta += vel*self.RADIANPERENCODER
