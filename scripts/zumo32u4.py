@@ -24,6 +24,8 @@ class Zumo:
         self.delta=0.0                   #[Second] Elapsed time
         self.theta=0.0                   #[Radian] Radian
         self.command=""                  #[String] Robot operation command
+        self.odomL=0
+        self.odomR=0
 
         try:
             self.PORT = rospy.get_param('BLUETOOTH_PORT') 
@@ -113,43 +115,42 @@ class Zumo:
     
     def pubodom(self):
 
-        VR=0.0
         VL=0.0
+        VR=0.0
 
-        self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000  #[Second] Elapsed time from latest measurement
-        VL=float(self.sensorvalue[9])                                   #[Count] Advance distance of left wheel
-        VR=float(self.sensorvalue[10])                                  #[Count] Advance distance of right wheel
-        vel = ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2
-        VLP=VL/self.COUNT*3.14*self.DIAMETER/self.delta
-        VRP=VR/self.COUNT*3.14*self.DIAMETER/self.delta
+        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
+            self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000          #[Second] Elapsed time from latest measurement
+            VL=float(self.sensorvalue[9])/self.COUNT*3.14*self.DIAMETER/self.delta  #[Meter] Advance distance of left wheel
+            VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.delta #[Meter] Advance distance of right wheel
+            vel = ((float(self.sensorvalue[9])>0)-(float(self.sensorvalue[9])<0))*(abs(float(self.sensorvalue[9]))+abs(self.sensorvalue[10]))/2
+            self.odomL = float(self.sensorvalue[9])
+            self.odomR = float(self.sensorvalue[10])
 
-        #self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
-        #self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
-        #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
-        if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-            #self.o.pose.pose.position.x += vel*cos(self.theta)
-            #self.o.pose.pose.position.y += vel*sin(self.theta)
-            self.o.pose.pose.position.x += (VRP+VLP)/2*cos(self.theta)
-            self.o.pose.pose.position.y += (VRP+VLP)/2*sin(self.theta)
-            self.temps=self.sensorvalue[0]
-        if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
-            self.theta += vel*self.RADIANPERENCODER
+            if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
+                self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
+                self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
+
+            if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
+                self.theta += vel*self.RADIANPERENCODER
             #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
 
+        self.temps=self.sensorvalue[0]
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
         self.o.pose.pose.orientation.x = quat[0]
         self.o.pose.pose.orientation.y = quat[1]
         self.o.pose.pose.orientation.z = quat[2]
         self.o.pose.pose.orientation.w = quat[3]
-#        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
-#        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
-#        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
-#        self.o.twist.twist.linear.x = vel*cos(self.theta)
-#        self.o.twist.twist.linear.y = vel*sin(self.theta)
-        self.o.twist.twist.linear.x =(VLP+VRP)/2*cos(self.theta)
-        self.o.twist.twist.linear.y =(VLP+VRP)/2*sin(self.theta)
-        self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
+
+        if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
+            self.o.twist.twist.linear.x = (VR+VL)/2*cos(self.theta)
+            self.o.twist.twist.linear.y = (VR+VL)/2*sin(self.theta)
+        else:
+            self.o.twist.twist.linear.x = 0
+            self.o.twist.twist.linear.y = 0
+
+        if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
+            self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
 
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
