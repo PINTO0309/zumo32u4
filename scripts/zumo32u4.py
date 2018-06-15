@@ -121,13 +121,17 @@ class Zumo:
         VR=float(self.sensorvalue[10])                                  #[Count] Advance distance of right wheel
         self.temps=self.sensorvalue[0]
         vel = ((VL>0)-(VL<0))*(abs(VL)+abs(VR))/2
+        VLP=VL/self.COUNT*3.14*self.DIAMETER/delta
+        VRP=VR/self.COUNT*3.14*self.DIAMETER/delta
 
         #self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
         #self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
         #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
         if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-            self.o.pose.pose.position.x += self.delta*vel*cos(self.theta)
-            self.o.pose.pose.position.y += self.delta*vel*sin(self.theta)
+            #self.o.pose.pose.position.x += vel*cos(self.theta)
+            #self.o.pose.pose.position.y += vel*sin(self.theta)
+            self.o.pose.pose.position.x += self.delta*(VLP+VRP)/2*cos(self.theta)
+            self.o.pose.pose.position.y += self.delta*(VLP+VRP)/2*sin(self.theta)
         if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
             self.theta += vel*self.RADIANPERENCODER
             #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
@@ -141,8 +145,10 @@ class Zumo:
 #        self.o.twist.twist.linear.x =(VR+VL)/2*cos(self.theta)
 #        self.o.twist.twist.linear.y =(VR+VL)/2*sin(self.theta)
 #        self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
-        self.o.twist.twist.linear.x = vel*cos(self.theta)
-        self.o.twist.twist.linear.y = vel*sin(self.theta)
+#        self.o.twist.twist.linear.x = vel*cos(self.theta)
+#        self.o.twist.twist.linear.y = vel*sin(self.theta)
+        self.o.twist.twist.linear.x =(VLP+VRP)/2*cos(self.theta)
+        self.o.twist.twist.linear.y =(VLP+VRP)/2*sin(self.theta)
         self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
 
         self.o.header.stamp = rospy.Time.now()
