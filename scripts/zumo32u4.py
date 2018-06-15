@@ -136,8 +136,8 @@ class Zumo:
         #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
         rad = 0.0
         if (self.odomL>0.0 and self.odomR<0.0) or (self.odomL<0.0 and self.odomR>0.0):
-            rad = ((self.odomL>0)-(self.odomL<0))*(abs(self.odomL)+abs(self.odomR))/2
-        self.theta += rad*self.delta
+            rad = ((self.odomL>0)-(self.odomL<0))*(abs(self.odomL)+abs(self.odomR))/2*self.RADIANPERENCODER
+        self.theta += rad
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
