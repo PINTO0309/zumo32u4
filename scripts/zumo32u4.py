@@ -133,7 +133,11 @@ class Zumo:
         self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
         self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
 
-        self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
+        #self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
+        rad = 0.0
+        if (self.odomL>0.0 and self.odomR<0.0) or (self.odomL<0.0 and self.odomR>0.0):
+            rad = ((self.odomL>0)-(self.odomL<0))*(abs(self.odomL)+abs(self.odomR))/2
+        self.theta += rad
 
         quat = tf.transformations.quaternion_from_euler(0,0,self.theta)
 
