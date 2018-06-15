@@ -118,20 +118,21 @@ class Zumo:
         VL=0.0
         VR=0.0
 
-        if self.sensorvalue[10]!=self.odomR or self.sensorvalue[9]!=self.odomL:
+        if int(self.sensorvalue[10])!=self.odomR or int(self.sensorvalue[9])!=self.odomL:
             self.delta=(float(self.sensorvalue[0])-float(self.temps))/1000          #[Second] Elapsed time from latest measurement
             VL=float(self.sensorvalue[9])/self.COUNT*3.14*self.DIAMETER/self.delta  #[Meter] Advance distance of left wheel
             VR=float(self.sensorvalue[10])/self.COUNT*3.14*self.DIAMETER/self.delta #[Meter] Advance distance of right wheel
             vel = ((float(self.sensorvalue[9])>0)-(float(self.sensorvalue[9])<0))*(abs(float(self.sensorvalue[9]))+abs(float(self.sensorvalue[10])))/2
-            self.odomL = float(self.sensorvalue[9])
-            self.odomR = float(self.sensorvalue[10])
+            self.odomL = self.sensorvalue[9]
+            self.odomR = self.sensorvalue[10]
 
             if (VL>0.0 and VR>0.0) or (VL<0.0 and VR<0.0):
-                self.o.pose.pose.position.x += (VR+VL)/2*cos(self.theta)
-                self.o.pose.pose.position.y += (VR+VL)/2*sin(self.theta)
+                self.o.pose.pose.position.x += self.delta*(VR+VL)/2*cos(self.theta)
+                self.o.pose.pose.position.y += self.delta*(VR+VL)/2*sin(self.theta)
 
             if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
-                self.theta += vel*self.RADIANPERENCODER
+                #self.theta += vel*self.RADIANPERENCODER
+                 self.theta += self.delta*(VL-VR)/self.INTERAXIS/2*3.14
             #rospy.loginfo("[VL] "+str(VL)+"[VR] "+str(VR)+"[theta] "+str(self.theta))
         else:
             VL=0.0
@@ -153,7 +154,8 @@ class Zumo:
             self.o.twist.twist.linear.y = 0
 
         if (VL>0.0 and VR<0.0) or (VL<0.0 and VR>0.0):
-            self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
+            #self.o.twist.twist.angular.z = vel*self.RADIANPERENCODER
+            self.o.twist.twist.angular.z = (VL-VR)/self.INTERAXIS/2*3.14
 
         self.o.header.stamp = rospy.Time.now()
         self.pub_odom.publish(self.o)
