@@ -22,7 +22,7 @@ class Zumo:
         self.RADIANPERENCODER=0.00121043 #[Radian] Radian per encoder count 1
         self.temps=0.0                   #[Second] Last measured time
         self.delta=0.0                   #[Second] Elapsed time
-        self.theta=0.0                   #[Radian] Radian
+        self.theta=3.14                  #[Radian] Radian
         self.command=""                  #[String] Robot operation command
         self.odomL=0
         self.odomR=0
