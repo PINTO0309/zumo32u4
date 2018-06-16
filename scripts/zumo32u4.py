@@ -49,7 +49,7 @@ class Zumo:
         self.o.pose.pose.position.x = 0.0
         self.o.pose.pose.position.y = 0.0
         self.o.pose.pose.position.z = 0.0
-        self.o.pose.pose.orientation.z = 3.14        
+        self.o.pose.pose.orientation.z = 0.0        
         self.o.header.stamp = rospy.Time.now()
         self.o.header.frame_id = "odom"
         self.o.child_frame_id = "base_link"
