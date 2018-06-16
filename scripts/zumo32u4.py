@@ -22,7 +22,7 @@ class Zumo:
         self.RADIANPERENCODER=0.00121043 #[Radian] Radian per encoder count 1
         self.temps=0.0                   #[Second] Last measured time
         self.delta=0.0                   #[Second] Elapsed time
-        self.theta=3.14                  #[Radian] Radian
+        self.theta=0.0                   #[Radian] Radian
         self.command=""                  #[String] Robot operation command
         self.odomL=0
         self.odomR=0
@@ -49,7 +49,7 @@ class Zumo:
         self.o.pose.pose.position.x = 0.0
         self.o.pose.pose.position.y = 0.0
         self.o.pose.pose.position.z = 0.0
-        self.o.pose.pose.orientation.z = 0.0        
+        self.o.pose.pose.orientation.z = 3.14        
         self.o.header.stamp = rospy.Time.now()
         self.o.header.frame_id = "odom"
         self.o.child_frame_id = "base_link"
