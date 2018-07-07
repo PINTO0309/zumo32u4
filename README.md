@@ -182,7 +182,7 @@ $ wstool init src
 $ wstool merge -t src https://raw.githubusercontent.com/googlecartographer/cartographer_ros/master/cartographer_ros.rosinstall
 $ wstool update -t src
 $ src/cartographer/scripts/install_proto3.sh
-$ sudo rosdep init   #<--- エラーになっても無視
+$ sudo rosdep init   #<--- Ignoring an error
 $ rosdep update
 $ rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 $ catkin_make_isolated --install --use-ninja
